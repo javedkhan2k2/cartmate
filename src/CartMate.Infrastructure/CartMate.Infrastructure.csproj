@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CartMate.Domain\CartMate.Domain.csproj" />
     <ProjectReference Include="..\CartMate.Application\CartMate.Application.csproj" />
+    <ProjectReference Include="..\CartMate.Contracts\CartMate.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

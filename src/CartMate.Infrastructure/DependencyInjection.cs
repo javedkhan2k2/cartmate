@@ -1,4 +1,6 @@
+using CartMate.Application.Common.Auth;
 using CartMate.Application.Common.Persistence;
+using CartMate.Infrastructure.Auth;
 using CartMate.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +19,7 @@ public static class DependencyInjection
                 npgsql.EnableRetryOnFailure(maxRetryCount: 3)));
 
         services.AddScoped<IAppDbContext>(sp => sp.GetRequiredService<AppDbContext>());
+        services.AddSingleton<IPasswordHasher, IdentityPasswordHasher>();
         services.AddSingleton(TimeProvider.System);
 
         return services;

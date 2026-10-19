@@ -1,0 +1,36 @@
+using FluentValidation;
+using FluentValidation.Results;
+using Mediator;
+
+namespace CartMate.Application.Common.Behaviors;
+
+/// <summary>
+/// Runs every FluentValidation validator registered for the message before the handler.
+/// Handlers can therefore assume their input is well-formed.
+/// </summary>
+public sealed class ValidationBehavior<TMessage, TResponse>(IEnumerable<IValidator<TMessage>> validators)
+    : IPipelineBehavior<TMessage, TResponse>
+    where TMessage : IMessage
+{
+    public async ValueTask<TResponse> Handle(
+        TMessage message,
+        MessageHandlerDelegate<TMessage, TResponse> next,
+        CancellationToken cancellationToken)
+    {
+        var context = new ValidationContext<TMessage>(message);
+        var failures = new List<ValidationFailure>();
+
+        foreach (var validator in validators)
+        {
+            var result = await validator.ValidateAsync(context, cancellationToken);
+            failures.AddRange(result.Errors);
+        }
+
+        if (failures.Count > 0)
+        {
+            throw new ValidationException(failures);
+        }
+
+        return await next(message, cancellationToken);
+    }
+}
