@@ -1,0 +1,26 @@
+name: ✨ Feature request
+description: Suggest an idea or improvement
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What problem would this solve? Who has it?
+      placeholder: When I'm in the store I can't tell which items my partner added recently...
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: How will we know it's done? These often become test cases.
+      placeholder: |
+        - [ ] Items added in the last 10 minutes show a "new" badge
+        - [ ] The badge disappears once the item is checked off
