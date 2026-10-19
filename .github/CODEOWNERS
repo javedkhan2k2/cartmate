@@ -1,0 +1,10 @@
+# Default owner for everything
+*                                              @javedkhan2k2
+
+# Pipeline and repo governance changes affect everyone: always review carefully
+/.github/                                      @javedkhan2k2
+/Directory.Build.props                         @javedkhan2k2
+/Directory.Packages.props                      @javedkhan2k2
+
+# Database migrations are hard to undo
+/src/CartMate.Infrastructure/Persistence/Migrations/  @javedkhan2k2
