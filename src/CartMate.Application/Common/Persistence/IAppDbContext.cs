@@ -1,6 +1,7 @@
 using CartMate.Domain.Lists;
 using CartMate.Domain.Users;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace CartMate.Application.Common.Persistence;
 
@@ -17,6 +18,9 @@ public interface IAppDbContext
     DbSet<GroceryItem> GroceryItems { get; }
 
     DbSet<ListMember> ListMembers { get; }
+
+    EntityEntry<TEntity> Entry<TEntity>(TEntity entity)
+        where TEntity : class;
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

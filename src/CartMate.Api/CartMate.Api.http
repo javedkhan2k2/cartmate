@@ -1,0 +1,66 @@
+@baseUrl = http://localhost:5233
+
+### 1. Register partner A
+# @name registerA
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{ "email": "alex@example.com", "displayName": "Alex", "password": "Passw0rd!" }
+
+### 2. Register partner B
+# @name registerB
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{ "email": "sam@example.com", "displayName": "Sam", "password": "Passw0rd!" }
+
+### 3. A creates a list
+# @name createList
+POST {{baseUrl}}/api/lists
+Authorization: Bearer {{registerA.response.body.$.accessToken}}
+Content-Type: application/json
+
+{ "name": "Weekly shop" }
+
+### 4. B joins with the invite code
+POST {{baseUrl}}/api/lists/join
+Authorization: Bearer {{registerB.response.body.$.accessToken}}
+Content-Type: application/json
+
+{ "inviteCode": "{{createList.response.body.$.inviteCode}}" }
+
+### 5. A adds an item
+# @name addItem
+POST {{baseUrl}}/api/lists/{{createList.response.body.$.id}}/items
+Authorization: Bearer {{registerA.response.body.$.accessToken}}
+Content-Type: application/json
+
+{ "name": "Oat milk", "quantity": 2, "category": "Dairy" }
+
+### 6. B (in the store) marks it bought
+PUT {{baseUrl}}/api/lists/{{createList.response.body.$.id}}/items/{{addItem.response.body.$.id}}/bought
+Authorization: Bearer {{registerB.response.body.$.accessToken}}
+Content-Type: application/json
+
+{ "isBought": true }
+
+### 7. A edits with the version from step 5. Expected: 409, because B changed the item in step 6
+PUT {{baseUrl}}/api/lists/{{createList.response.body.$.id}}/items/{{addItem.response.body.$.id}}
+Authorization: Bearer {{registerA.response.body.$.accessToken}}
+Content-Type: application/json
+
+{ "name": "Oat milk (barista)", "quantity": 2, "version": {{addItem.response.body.$.version}} }
+
+### 8. Invalid input. Expected: 400 with field errors
+POST {{baseUrl}}/api/lists/{{createList.response.body.$.id}}/items
+Authorization: Bearer {{registerA.response.body.$.accessToken}}
+Content-Type: application/json
+
+{ "name": "", "quantity": 0 }
+
+### 9. No token. Expected: 401
+GET {{baseUrl}}/api/lists
+
+### 10. Full list as A
+GET {{baseUrl}}/api/lists/{{createList.response.body.$.id}}
+Authorization: Bearer {{registerA.response.body.$.accessToken}}
