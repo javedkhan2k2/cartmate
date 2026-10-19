@@ -68,3 +68,7 @@ dotnet_diagnostic.CA1515.severity = none
 [tests/**.cs]
 # Test names use underscores: Handle_WhenItemIsBought_PublishesEvent
 dotnet_diagnostic.CA1707.severity = none
+
+# ── EF Core migrations: generated code, excluded from analyzers ──
+[src/CartMate.Infrastructure/Persistence/Migrations/**.cs]
+generated_code = true

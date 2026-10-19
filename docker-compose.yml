@@ -1,0 +1,23 @@
+name: cartmate
+
+services:
+  db:
+    # Keep the major version in sync with Neon (checked in Chapter 21): environment parity.
+    image: postgres:17-alpine
+    container_name: cartmate-db
+    environment:
+      POSTGRES_USER: cartmate
+      POSTGRES_PASSWORD: cartmate_dev   # local-only, throwaway credentials
+      POSTGRES_DB: cartmate
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cartmate -d cartmate"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+volumes:
+  pgdata:
