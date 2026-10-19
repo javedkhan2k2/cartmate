@@ -1,0 +1,14 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <!-- Also pin transitive dependencies when we list them here
+         (lets us force a patched version of a vulnerable sub-dependency). -->
+    <CentralPackageTransitivePinningEnabled>true</CentralPackageTransitivePinningEnabled>
+  </PropertyGroup>
+
+  <!-- Versions are added chapter by chapter. Use the versions your template generated. -->
+  <ItemGroup Label="Blazor">
+    <PackageVersion  Include="Microsoft.AspNetCore.Components.WebAssembly" Version="10.0.13" />
+    <PackageVersion  Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="10.0.13" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CartMate.Api/CartMate.Api.csproj" />
+    <Project Path="src/CartMate.Application/CartMate.Application.csproj" />
+    <Project Path="src/CartMate.Contracts/CartMate.Contracts.csproj" />
+    <Project Path="src/CartMate.Domain/CartMate.Domain.csproj" />
+    <Project Path="src/CartMate.Infrastructure/CartMate.Infrastructure.csproj" />
+    <Project Path="src/CartMate.Web/CartMate.Web.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,33 @@
+<Project>
+  <!-- Applies to every project in the repository. -->
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Code quality: built-in .NET analyzers at the "recommended" level.
+         Style rules from .editorconfig are enforced during build, not just in the IDE. -->
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+    <!-- Warnings never pile up: every warning is a build failure. -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+    <!-- Required for the "unused using" rule (IDE0005) to run at build time.
+         CS1591 ("missing XML comment") is silenced because we don't publish a library. -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <!-- Lock files record the exact version of every package, including transitive ones.
+         Restores become reproducible and cache keys in CI become reliable. -->
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+  </PropertyGroup>
+
+  <!-- Extra strictness only on CI (GitHub Actions sets GITHUB_ACTIONS=true). -->
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <!-- Deterministic paths in build output, so builds are reproducible. -->
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+    <!-- Fail if the lock file is out of date instead of silently resolving new versions. -->
+    <RestoreLockedMode>true</RestoreLockedMode>
+  </PropertyGroup>
+</Project>
